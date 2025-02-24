@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CocktailImage } from '../components/CocktailImage';
-import { mapRawCocktailData } from '../utilities';
+import { mapRawCocktailData } from '../../../backend/utilities';
 
 export function CocktailDetailsView() {
   const [cocktailDetails, setCocktailDetails] = useState(null);

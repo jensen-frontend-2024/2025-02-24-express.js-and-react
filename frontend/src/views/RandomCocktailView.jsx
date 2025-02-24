@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { mapRawCocktailData } from '../utilities';
+import { mapRawCocktailData } from '../../../backend/utilities';
 import { RandomCocktail } from '../components/RandomCocktail';
 
 export function RandomCocktailView() {
