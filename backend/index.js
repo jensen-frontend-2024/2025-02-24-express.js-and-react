@@ -33,6 +33,8 @@ app.get('/api/cocktails/:id', async (req, res) => {
   res.json(cocktailById);
 });
 
+app.get('/api/cocktails')
+
 app.listen(3000, () => {
   console.log('Listening to port 3000');
 });
