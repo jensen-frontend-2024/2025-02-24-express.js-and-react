@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CocktailImage } from '../components/CocktailImage';
-import { mapRawCocktailData } from '../../../backend/utilities';
 
 export function CocktailDetailsView() {
   const [cocktailDetails, setCocktailDetails] = useState(null);
@@ -10,9 +9,8 @@ export function CocktailDetailsView() {
   const { id } = useParams(); // Will give as an objerct; {id: number}
 
   const fetchCocktailDetailsAsync = async (id) => {
-    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-    const rawData = await response.json();
-    const data = mapRawCocktailData(rawData.drinks.at(0));
+    const response = await fetch(`http://localhost:3000/api/cocktails/${id}`);
+    const data = await response.json();
     return data;
   };
 

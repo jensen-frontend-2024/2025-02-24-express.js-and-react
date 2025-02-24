@@ -1,15 +1,13 @@
 import { useEffect, useState } from 'react';
-import { mapRawCocktailData } from '../../../backend/utilities';
 import { RandomCocktail } from '../components/RandomCocktail';
 
 export function RandomCocktailView() {
   const [randomCocktail, setRandomCocktail] = useState(null);
 
   const fetchRandomCocktailAsync = async () => {
-    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
-    const rawData = await response.json();
-    const data = mapRawCocktailData(rawData.drinks.at(0));
-    return data;
+    const response = await fetch('http://localhost:3000/api/cocktails/random');
+    const randomCocktail = await response.json();
+    return randomCocktail;
   };
 
   // Empty dependency array makes this useEffect run on first render only.

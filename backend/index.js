@@ -3,15 +3,34 @@
 
 import express from 'express';
 import Database from 'better-sqlite3';
+import fetch from 'node-fetch';
+import cors from 'cors';
+import { mapRawCocktailData } from './utilities.js';
 
 const db = new Database('../cocktails.db');
 const app = express();
 
-app.get('/', (req, res) => {
-  const stmt = db.prepare('SELECT * FROM cocktails');
-  const cocktails = stmt.all(); // .all will return an array where every row in the DB is an object.
+app.use(cors()); // Middleware, all the requests will pass throught this middleware first, before reaching the endpoints. Cors can be configure to allow or not allow specific requests.
 
-  res.json({ cocktails });
+app.get('/', (req, res) => {
+  res.send('Nothing here folks');
+});
+
+app.get('/api/cocktails/random', async (req, res) => {
+  const path = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+  const response = await fetch(path);
+  const rawCocktail = await response.json();
+  const cocktail = mapRawCocktailData(rawCocktail.drinks[0]);
+  res.json(cocktail);
+});
+
+app.get('/api/cocktails/:id', async (req, res) => {
+  const params = req.params; // {id: 10} for instance.
+  const path = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${params.id}`;
+  const response = await fetch(path);
+  const rawCocktailById = await response.json();
+  const cocktailById = mapRawCocktailData(rawCocktailById.drinks[0]);
+  res.json(cocktailById);
 });
 
 app.listen(3000, () => {
